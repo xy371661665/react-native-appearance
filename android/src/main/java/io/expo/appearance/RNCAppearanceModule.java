@@ -31,17 +31,17 @@ public class RNCAppearanceModule extends ReactContextBaseJavaModule implements L
     public RNCAppearanceModule(@NonNull ReactApplicationContext reactContext) {
         super(reactContext);
         // Only Android 10+ supports dark mode
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-            final ReactApplicationContext ctx = reactContext;
-            mBroadcastReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    Configuration newConfig = intent.getParcelableExtra("newConfig");
-                    sendEvent(ctx, "appearanceChanged", getPreferences());
-                }
-            };
-            ctx.addLifecycleEventListener(this);
-        }
+        // if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+        final ReactApplicationContext ctx = reactContext;
+        mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Configuration newConfig = intent.getParcelableExtra("newConfig");
+                sendEvent(ctx, "appearanceChanged", getPreferences());
+            }
+        };
+        ctx.addLifecycleEventListener(this);
+        // }
     }
 
     @NonNull
@@ -55,19 +55,19 @@ public class RNCAppearanceModule extends ReactContextBaseJavaModule implements L
         String colorScheme = "no-preference";
 
         // Only Android 10+ support dark mode
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-            int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
-            switch (currentNightMode) {
-                case Configuration.UI_MODE_NIGHT_NO:
-                case Configuration.UI_MODE_NIGHT_UNDEFINED:
-                    colorScheme = "light";
-                    break;
-                case Configuration.UI_MODE_NIGHT_YES:
-                    colorScheme = "dark";
-                    break;
+        // if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+        int currentNightMode = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (currentNightMode) {
+            case Configuration.UI_MODE_NIGHT_NO:
+            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                colorScheme = "light";
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                colorScheme = "dark";
+                break;
 
-            }
         }
+        // }
 
         return colorScheme;
     }
